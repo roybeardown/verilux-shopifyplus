@@ -1,0 +1,69 @@
+<!--/ page handle diffrentiates with each page -->
+{% assign page_handle = product.handle %}
+{% assign hideHtml = false %}
+{% if section.blocks.size > 0 %}
+    {% for block in section.blocks %}
+        {% if block.settings.product_handle == page_handle %}
+            {% assign hideHtml = true %}
+        {% endif %}
+   {% endfor %}
+{% endif %}
+
+{% if hideHtml == false %}
+  {% if section.settings.image %}
+  <div class="container">
+      <div class="twelve columns offset-by-two clearfix">
+            {% if section.settings.banner_link %}
+            <a href="{{ section.settings.banner_link }}">   
+            {% endif %}
+                <img class="responsive__image__changer" style="max-width: 100%; margin: 0 auto;" 
+                alt="{{ section.settings.image.alt }}"
+                src="{{ section.settings.image | img_url: '2048x' }}" 
+                data-src-desktop="{{ section.settings.image | img_url: '2048x' }}"  
+                data-src-mobile="{{ section.settings.mobile_image | img_url: '2048x' }}"  />
+
+            {% if section.settings.banner_link %}
+            </a>
+            {% endif %}
+      </div>
+  </div>
+  {% endif %}
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Promo Banner Management",
+    "class": "promo-banner-product-section",
+    "settings": [
+        {
+          "type": "text",
+          "id": "banner_link",
+          "label": "Banner Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image Desktop"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Image Mobile"
+        }
+    ],
+    "blocks": [
+      {
+        "type": "text_block",
+        "name": "Hide in Products",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product_handle",
+            "label": "Select a product"
+          }
+            
+        ]
+      }
+    ]
+  }
+{% endschema %}

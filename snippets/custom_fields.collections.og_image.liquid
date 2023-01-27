@@ -1,0 +1,13 @@
+{% comment %}
+  DO NOT MODIFY THIS FILE DIRECTLY. THIS FILE WILL BE OVERWRITTEN.
+  YOU CAN MODIFY THE LIQUID CODE FOR THIS CUSTOM FIELD HERE:
+  https://customfields.bonify.io/dashboard/dev-verilux.myshopify.com/collections/edit-field/32166
+{% endcomment %}
+{% if collection.metafields.custom_fields["og_image"] != blank %}
+  <div class="custom-field custom-field__og-image custom-field__type--image">
+    <h3 class="custom-field--title">OG Image</h3>
+    <div class="custom-field--value">
+      {{ collection.metafields.custom_fields["og_image"] }}
+    </div>
+  </div>
+{% endif %}

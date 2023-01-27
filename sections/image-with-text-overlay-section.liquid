@@ -1,0 +1,202 @@
+<section id="section-{{section.id}}" class="banner-section {% unless section.settings.wide_display %}container wide_display--false{% endunless %}">
+    <div class="slider flexslider homepage_slider">
+      <ul class="slides">
+        <li>
+          {% if section.settings.link != blank %}
+            <a href="{{ section.settings.link }}">
+          {% endif %}
+          {% if section.settings.image != nil %}
+            
+            <img class="lazyload lazyload--fade-in responsive__image__changer" 
+                alt="{{ section.settings.image.alt }}"
+                tmp-src="{{ section.settings.image | img_url: '2048x' }}" 
+                data-src-desktop="{{ section.settings.image | img_url: '2048x' }}"  
+                {% if section.settings.mobile_image %}
+                data-src-mobile="{{ section.settings.mobile_image | img_url: '2048x' }}"  />
+                {% endif %}
+              
+          {% else %}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg placeholder-svg--banner' }}
+          {% endif %}
+
+          {% if section.settings.link != blank %}
+            </a>
+          {% endif %}
+          {% if section.settings.image != blank or section.settings.title != blank or section.settings.text != blank or section.settings.button_label != blank %}
+            <div class="flex-caption">
+              <div class="container">
+                <div class="columns {% if section.settings.text_position == 'left' %} nine offset-by-one {% elsif section.settings.text_position == 'right' %} eight offset-by-seven {% else %} ten offset-by-three {% endif %} align_{{ section.settings.text_align }}">
+                  {% if section.settings.title != blank %}
+                    <h1 class="headline">
+                      {{ section.settings.title | escape }}
+                    </h1>
+                  {% endif %}
+                  {% if section.settings.text != blank %}
+                    <div class="subtitle">
+                      {{ section.settings.text }}
+                    </div>
+                  {% endif %}
+                  {% if section.settings.button_label != blank %}
+                    <a {% if section.settings.link != blank %}href="{{ section.settings.link }}"{% endif %} class="action_button {% if settings.button_style == 'solid' %}action_button_solid{% endif %}">
+                      {{ section.settings.button_label | escape }}
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </li>
+      </ul>
+      <style>
+          #section-{{section.id}} li .flex-caption{
+            {% if section.settings.position_top != blank %}
+            top: {{ section.settings.position_top | escape }};
+            {% endif %}
+          }
+          #section-{{section.id}} li .flex-caption .headline,
+          #section-{{section.id}} li .flex-caption .subtitle{
+            {% if section.settings.text_color != blank %}
+            color: {{ section.settings.text_color | escape }};
+            {% endif %}
+          }
+          #section-{{section.id}} li .flex-caption .action_button{
+            {% if section.settings.button_color != blank %}
+            color: {{ section.settings.button_color | escape }};
+            {% endif %}
+            {% if section.settings.button_border_color != blank %}
+            border-color: {{ section.settings.button_border_color | escape }};
+            {% endif %}
+            {% if section.settings.button_background_color != blank %}
+            background-color: {{ section.settings.button_background_color | escape }};
+            {% endif %}
+          }
+        </style>
+    </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Image with text overlay",
+    "class": "image-with-text-overlay-section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "wide_display",
+        "default": true,
+        "label": "Wide display"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Desktop Image",
+        "info": "769px or more screen width"
+      },
+	  {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile Image",
+        "info": "768px or less screen width"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Your headline here"
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>This is a short subheading for your banner image</p>"
+      },
+      {
+        "type": "select",
+        "id": "text_position",
+        "label": "Text position",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      },
+      {
+          "type": "text",
+          "id": "position_top",
+          "label": "Text Position Top"
+      },
+	  {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color"
+        },
+		{
+          "type": "color",
+          "id": "button_color",
+          "label": "Button Color"
+        },
+		{
+          "type": "color",
+          "id": "button_border_color",
+          "label": "Button Border Color"
+        },
+		{
+          "type": "color",
+          "id": "button_background_color",
+          "label": "Button Background Color"
+        }
+    ],
+    "presets": [
+      {
+        "name": "Image with text overlay",
+        "category": "Image",
+        "settings": {
+          "text_position": "center",
+          "text_align": "center",
+		  "text_color": "",
+		  "button_color": "",
+		  "button_border_color": "",
+		  "button_background_color": ""
+        }
+      }
+    ]
+  }
+{% endschema %}
