@@ -1,0 +1,43 @@
+{% comment %}
+  The contents of the collection.liquid template can be found in /sections/collection-template.liquid
+{% endcomment %}
+
+{% section 'collection-template' %}
+
+<!--
+<div id="stamped-reviews-widget" data-product-ids="{{ collection.products | map: 'id' | join: ',' }}" data-widget-type="carousel" data-fill-empty="true" data-random="true" data-per-slide="3" data-limit-words="50" data-title="What some of our customers have to say..." data-auto-play="true" data-auto-play-speed="10000"></div>
+-->
+{% section 'promo-banner-collection' %}
+
+{% section 'featured-text' %}
+
+
+<!--
+{% if collection.metafields.stamped.reviews_count and collection.metafields.stamped.reviews_count != "0" %} 
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "LocalBusiness",
+  "name": "{{shop.name}}",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "bestRating": "5",
+    "worstRating": "1",
+    "reviewCount": "{{ collection.metafields.stamped.reviews_count }}",
+    "ratingValue": "{{ collection.metafields.stamped.reviews_average | round:2 }}"
+  },
+  "image": "https://cdn.shopify.com/s/files/1/0009/9123/2065/files/WHITE_slogan1.png?15299189220284589605",
+  "priceRange": "$",
+  "address": {
+  	"addressLocality": "{{shop.address.city}}",
+    "addressRegion": "{{shop.address.province_code}}",
+    "streetAddress": "{{shop.address.street}}",
+    "postalCode": "{{shop.address.zip}}",
+    "addressCountry": "{{shop.address.country}}"
+    },
+    "telephone": "{{shop.phone}}"
+}
+</script>
+{% endif %}
+
+-->
