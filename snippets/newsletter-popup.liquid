@@ -1,0 +1,150 @@
+{% if settings.newsletter_popup and page.handle != "happy-work-giveaway" %}
+  <a id="newsletter" href="#target"></a>
+  <span style="display: none;">
+   <span id="target">
+    {% if settings.newsletter_popup_link != blank %}
+      <a href="{{ settings.newsletter_popup_link }}">
+    {% endif %}
+
+    {% if settings.newsletter_popup_title != blank %}
+      <p class="headline">
+        {{ settings.newsletter_popup_title }}
+      </p>
+    {% endif %}
+
+    {% if settings.newsletter_popup_image %}
+      <p>
+        {% assign img_size = settings.newsletter_popup_max_width | append: 'x' %}
+        {{ settings.newsletter_popup_image | img_url: img_size, scale: 2 | img_tag: settings.newsletter_popup_image.alt, 'lazyload lazyload--fade-in' }}
+      </p>
+    {% endif %}
+
+    {% if settings.newsletter_popup_text != blank %}
+      {{ settings.newsletter_popup_text }}
+    {% endif %}
+
+    {% if settings.newsletter_popup_link != blank %}
+      </a>
+    {% endif %}
+
+    {% if settings.newsletter_popup_form %}
+      
+      <div class="newsletter {% if newsletter == 'center' %}center{% endif %} clearfix">
+        <p class="message"></p>
+
+        <form class="myemma-form" action="http://signup-collector.e2ma.net/signup" method="POST" accept-charset="utf-8">
+          
+          <div class="submit center clearfix">
+            <div class="newsletter-half first-name">
+              Email:
+              <input title="Email" class="email" type="text" name="email" required placeholder="{{ 'general.newsletter_form.placeholder' | t }}" autocorrect="off" autocapitalize="off" />
+            </div>
+            
+            <div class="newsletter-half location">
+              Location:
+              <select title="Location" class="location" name="location">
+                <option value="United States">United States</option>
+                <option value="Canada">Canada</option>
+                <option value="Africa">Africa</option>
+                <option value="Asia">Asia</option>
+                <option value="Australia">Australia</option>
+                <option value="Europe">Europe</option>
+                <option value="South America">South America</option>
+              </select>
+            </div>
+          </div>
+
+
+          <input title="Account Id" type="hidden" name="accountId" value="1800666">
+          <input title="Form Id" type="hidden" name="formId" value="1cfc2deca95152a794d0a65900e76ef2">
+
+          <input title="Groups" type="hidden" name="groups" value="[3856858]">
+
+          <input title="optInConfirmation" type="hidden" name="optInConfirmation" value="false">
+
+          <input title="challenge" type="hidden" name="challenge" value="false">
+        
+          <div class="submit center clearfix">
+            <input title="Submit" type='submit' class="action_button sign_up" value="{{ 'general.newsletter_form.submit' | t }}" />
+          </div>
+          
+        </form>
+
+      </div>
+      <script type="text/javascript">
+          function isValidEmailAddress(emailAddress) {
+              var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+              return pattern.test(emailAddress);
+          }
+
+        $( document ).ready(function() {
+          var $newsletterForm = $('.newsletter .myemma-form');
+          $newsletterForm.each(function() {
+            var $cf = $(this);
+            $cf.on('submit', function (e) {
+              e.preventDefault();
+
+              if(!isValidEmailAddress(jQuery('.myemma-form .email').val())){
+                return false;
+              }
+
+              if($('input[name="challenge"]', $cf).val() !== "true") {
+
+                var dataObject = $cf.serializeJSON();
+                var jsonString = JSON.stringify(dataObject);
+
+                $.ajax({
+                  type: $cf.attr('method'),
+                  url: $cf.attr('action'),
+                  dataType: "json",
+                  contentType: "application/json; charset=utf-8",
+                  data: jsonString,
+                  crossDomain: true,
+                  success: function (data) {
+                    $cf.fadeOut("slow", function(){
+                      $cf.prev('.message').html({{ 'general.newsletter_form.success_text' | t | json }});
+                    });
+                  },
+                  error: function(data) {
+                    $cf.fadeOut("slow", function(){
+                      $cf.prev('.message').html({{ 'general.newsletter_form.success_text' | t | json }});
+                    });
+                  }
+                });
+              }
+              
+            });
+          });
+        });
+
+      </script>
+
+
+    {% endif %}
+    </span>
+  </span>
+
+  <script type="text/javascript">
+    function openNewsletterPopup() {
+      setTimeout( function() {
+        $('#newsletter').fancybox({wrapCSS: 'newsletter_popup', padding: [40, 40, 40, 40], scrolling: false, maxWidth: {% if settings.newsletter_popup_max_width != blank %}{{ settings.newsletter_popup_max_width }}{% else %}600{% endif %}, minWidth: 250});
+        $('#newsletter').trigger('click');
+      },
+      {% if settings.newsletter_popup_seconds != blank %}{{ settings.newsletter_popup_seconds }}{% else %}2{% endif %}*1000);
+    }
+
+    $(function() {
+      var popup = $.cookie('popup');
+      var cookie_enabled = {% if settings.newsletter_popup_days != blank and settings.newsletter_popup_days != "0" %}true{% else %}false{% endif %};
+
+      if (cookie_enabled && popup == 'open') {
+          return false;
+      } else if ({{ settings.newsletter_popup_mobile }} || $(window).width() > 768) {
+        openNewsletterPopup();
+      }
+      if (cookie_enabled) {
+        $.cookie('popup', 'open', { expires: {{ settings.newsletter_popup_days }} });
+      }
+    });
+  </script>
+{% endif %}
